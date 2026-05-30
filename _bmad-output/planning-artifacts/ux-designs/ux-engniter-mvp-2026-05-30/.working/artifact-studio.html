@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Engniter Studio - Artifact Studio</title>
+  <style>
+    :root {
+      --bg:#f7f8fa; --surface:#fff; --muted:#eef1f4; --border:#d7dee7; --ink:#111827; --sub:#4b5563; --trust:#1d4ed8; --trust-soft:#dbeafe; --warn:#b45309; --warn-soft:#fef3c7;
+    }
+    * { box-sizing:border-box; } body { margin:0; font:14px/1.5 Inter, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+    .page { padding:24px; display:grid; gap:16px; }
+    .panel, .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; }
+    .panel { padding:18px; }
+    .tabs { display:flex; gap:8px; flex-wrap:wrap; }
+    .tab { padding:10px 12px; border-radius:10px; background:var(--muted); color:var(--sub); font-weight:600; }
+    .tab.active { background:#fff; border:1px solid var(--border); color:var(--ink); }
+    .header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .badge { display:inline-flex; padding:6px 10px; border-radius:999px; background:var(--warn-soft); color:var(--warn); font-size:12px; font-weight:700; }
+    .layout { display:grid; grid-template-columns: 1fr 320px; gap:16px; }
+    .toolbar { display:flex; gap:10px; align-items:center; margin-top:14px; }
+    button { border-radius:10px; padding:10px 14px; font-weight:600; border:1px solid var(--border); background:#fff; }
+    .primary { background:var(--trust); color:#fff; border-color:var(--trust); }
+    .doc { white-space:pre-line; }
+    .small { color:var(--sub); font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="panel">
+      <div class="header">
+        <div>
+          <h1 style="margin:0 0 8px; font-size:28px;">Artifact studio</h1>
+          <div class="tabs">
+            <div class="tab">Scope Brief</div>
+            <div class="tab">Clarification Packet</div>
+            <div class="tab">Mini PRD</div>
+            <div class="tab active">SOW Draft</div>
+            <div class="tab">Proposal Draft</div>
+          </div>
+        </div>
+        <div class="badge">Stale · Scope Brief changed 18 min ago</div>
+      </div>
+      <div class="toolbar">
+        <button class="primary">Regenerate</button>
+        <button>Export PDF</button>
+        <button>Export DOCX</button>
+        <span class="small">Last generated · 10:44 · Edited by Ana after generation</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel doc">
+        <strong>SOW Draft</strong>
+
+        Scope summary
+        Identity modernization for internal operator access and migration support.
+
+        Workstreams
+        1. Discovery validation
+        2. Target-state access model
+        3. Migration sequencing and cutover support
+
+        Responsibilities
+        Client provides access to legacy broker configuration and audit policy.
+        Vendor provides migration planning, implementation, and validation support.
+
+        Assumptions
+        - Okta remains the target identity platform.
+        - Audit retention policy can be met without custom storage.
+
+        Exclusions
+        - End-user self-service portal redesign
+        - Long-term IAM governance program
+      </section>
+
+      <aside class="panel">
+        <p style="margin:0 0 8px; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#4b5563; font-weight:700;">Export and share</p>
+        <div class="card" style="padding:14px;">
+          <strong>Blocked items</strong>
+          <p class="small">None. Export is allowed because all critical no-promise warnings are resolved.</p>
+        </div>
+        <div class="card" style="padding:14px; margin-top:10px;">
+          <strong>Internal reviewers</strong>
+          <p class="small">Priya Shah · Review only</p>
+          <p class="small">Ana Costa · Edit artifacts</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

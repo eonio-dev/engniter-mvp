@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Engniter Studio - Opportunity Overview</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --muted: #eef1f4;
+      --border: #d7dee7;
+      --ink: #111827;
+      --sub: #4b5563;
+      --trust: #1d4ed8;
+      --trust-soft: #dbeafe;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --success: #166534;
+      --success-soft: #dcfce7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.5 Inter, Arial, sans-serif; color: var(--ink); background: var(--bg); }
+    .shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; gap: 24px; padding: 24px; }
+    .nav, .panel, .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+    .nav { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .brand { font-size: 20px; font-weight: 700; }
+    .nav a { padding: 10px 12px; border-radius: 10px; color: var(--sub); text-decoration: none; }
+    .nav a.active { background: var(--trust-soft); color: var(--trust); font-weight: 600; }
+    .main { display: grid; gap: 16px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .title h1 { margin: 0 0 6px; font-size: 28px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 600; }
+    .chip.trust { background: var(--trust-soft); color: var(--trust); }
+    .chip.warn { background: var(--warn-soft); color: var(--warn); }
+    .primary { background: var(--trust); color: #fff; border: 0; border-radius: 10px; padding: 10px 14px; font-weight: 600; }
+    .warning { padding: 14px 16px; background: var(--warn-soft); color: var(--warn); border: 1px solid #f3d38a; border-radius: 10px; }
+    .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+    .panel { padding: 18px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: var(--sub); margin: 0 0 14px; font-weight: 700; }
+    .meta { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .meta .card, .context .card { padding: 14px; }
+    .context { display: grid; gap: 10px; }
+    .context .card { display: flex; justify-content: space-between; align-items: center; }
+    .small { color: var(--sub); font-size: 12px; }
+    .metrics { display: grid; gap: 10px; }
+    .metrics .card { padding: 14px; }
+    .success { background: var(--success-soft); color: var(--success); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="nav">
+      <div class="brand">Engniter Studio</div>
+      <a href="#">Opportunities</a>
+      <a href="#" class="active">Current Opportunity</a>
+      <a href="#">Templates</a>
+      <a href="#">Exports</a>
+      <a href="#">Settings</a>
+    </aside>
+    <main class="main">
+      <div class="header">
+        <div class="title">
+          <h1>Acme Identity Modernization</h1>
+          <div class="chips">
+            <span class="chip trust">Scope Confidence · Medium</span>
+            <span class="chip warn">3 critical gaps still block commitment</span>
+            <span class="chip">Owner · Marcos</span>
+          </div>
+        </div>
+        <button class="primary">Run analysis</button>
+      </div>
+
+      <div class="warning">This Opportunity still has unresolved critical questions around SSO ownership, audit retention, and migration sequencing.</div>
+
+      <div class="grid">
+        <section class="panel">
+          <p class="section-title">Opportunity overview</p>
+          <div class="meta">
+            <div class="card"><strong>Client</strong><div class="small">Acme Bank</div></div>
+            <div class="card"><strong>Deadline</strong><div class="small">Jun 12, 2026</div></div>
+            <div class="card"><strong>Project type</strong><div class="small">Identity migration</div></div>
+            <div class="card"><strong>Estimated value</strong><div class="small">$180k–$240k</div></div>
+          </div>
+          <p class="section-title" style="margin-top:18px;">Internal fit criteria</p>
+          <div class="card">
+            <div><strong>Preferred stack</strong><div class="small">Azure AD, Okta, Node.js services</div></div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div><strong>Delivery guardrails</strong><div class="small">No cutover under 6 weeks · No unsupported legacy SAML broker</div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <p class="section-title">Workflow status</p>
+          <div class="metrics">
+            <div class="card"><strong>Context Package</strong><div class="small">7 items attached · RFP, call notes, transcript excerpts, sales thread</div></div>
+            <div class="card"><strong>Scope Brief</strong><div class="small">18 items generated · 11 reviewed · 3 flagged</div></div>
+            <div class="card success"><strong>Clarification Packet</strong><div class="small">9 questions ready for client follow-up</div></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <p class="section-title">Context package</p>
+        <div class="context">
+          <div class="card"><div><strong>RFP_v3.pdf</strong><div class="small">Uploaded by Marcos · 08:42</div></div><span class="chip trust">File</span></div>
+          <div class="card"><div><strong>Discovery call transcript</strong><div class="small">Pasted excerpt · 09:16</div></div><span class="chip trust">Transcript</span></div>
+          <div class="card"><div><strong>Commercial briefing</strong><div class="small">Structured notes · 09:20</div></div><span class="chip">Note</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

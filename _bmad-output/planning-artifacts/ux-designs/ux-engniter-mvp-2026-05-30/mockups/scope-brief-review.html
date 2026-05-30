@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Engniter Studio - Scope Brief Review</title>
+  <style>
+    :root {
+      --bg: #f7f8fa; --surface: #fff; --muted: #eef1f4; --border: #d7dee7; --ink: #111827; --sub: #4b5563;
+      --trust: #1d4ed8; --trust-soft: #dbeafe; --warn: #b45309; --warn-soft: #fef3c7; --danger: #b91c1c; --danger-soft: #fee2e2;
+    }
+    * { box-sizing: border-box; } body { margin: 0; font: 14px/1.5 Inter, Arial, sans-serif; background: var(--bg); color: var(--ink); }
+    .shell { display: grid; grid-template-columns: 1fr 340px; gap: 16px; min-height: 100vh; padding: 24px; }
+    .panel, .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+    .panel { padding: 18px; }
+    .top { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 16px; }
+    .badge { display: inline-flex; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .badge.trust { background: var(--trust-soft); color: var(--trust); }
+    .badge.warn { background: var(--warn-soft); color: var(--warn); }
+    .badge.danger { background: var(--danger-soft); color: var(--danger); }
+    .warning { margin-bottom: 16px; padding: 14px 16px; background: var(--warn-soft); color: var(--warn); border: 1px solid #f3d38a; border-radius: 10px; }
+    .list { display: grid; gap: 12px; }
+    .card { padding: 16px; }
+    .small { color: var(--sub); font-size: 12px; }
+    .actions { position: sticky; bottom: 0; display: flex; gap: 10px; padding: 14px; background: #fff; border-top: 1px solid var(--border); margin: 16px -18px -18px; border-radius: 0 0 14px 14px; }
+    button { border-radius: 10px; padding: 10px 14px; font-weight: 600; border: 1px solid var(--border); background: #fff; }
+    .primary { background: var(--trust); color: #fff; border-color: var(--trust); }
+    .danger { color: var(--danger); }
+    .side { display: grid; gap: 16px; }
+    .code { font: 12px/1.4 "IBM Plex Mono", Consolas, monospace; color: var(--trust); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="panel">
+      <div class="top">
+        <div>
+          <h1 style="margin:0 0 6px; font-size:28px;">Scope Brief review</h1>
+          <div class="badge trust">Confidence · Medium</div>
+          <div class="badge warn">3 critical gaps</div>
+        </div>
+        <button class="primary">Approve Scope Brief</button>
+      </div>
+      <div class="warning">Proposal Draft and SOW Draft remain blocked until the 3 critical gaps are reviewed or explicitly overridden.</div>
+      <div class="list">
+        <div class="card">
+          <div class="badge trust">Source-backed</div>
+          <h3 style="margin:10px 0 8px;">Requirement: SSO must integrate with Okta and preserve admin audit trail</h3>
+          <p class="small">Category · Requirement · Edited after generation</p>
+          <p>The client expects centralized sign-on for internal operators and auditable admin actions during migration and steady state.</p>
+          <p class="code">Source · RFP_v3.pdf §4.2 · Transcript 09:16 excerpt 3</p>
+          <div class="actions">
+            <button class="primary">Accept</button>
+            <button>Edit</button>
+            <button class="danger">Reject</button>
+            <button>Flag</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="badge danger">Inferred</div>
+          <h3 style="margin:10px 0 8px;">Risk: Legacy SAML broker may extend migration by 3+ weeks</h3>
+          <p class="small">Category · Risk · Needs clarification</p>
+          <p>The inferred risk is plausible but only weakly grounded. Marcos should confirm whether the broker stays in scope.</p>
+          <p class="code">Source · Discovery notes line 12</p>
+          <div class="actions">
+            <button class="primary">Accept</button>
+            <button>Edit</button>
+            <button class="danger">Reject</button>
+            <button>Flag</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <aside class="side">
+      <div class="panel">
+        <p style="margin:0 0 8px; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#4b5563; font-weight:700;">Source reference drawer</p>
+        <h3 style="margin:0 0 8px;">RFP_v3.pdf §4.2</h3>
+        <p>The solution must support centralized sign-on and retain administrator audit logs for at least 12 months.</p>
+        <p class="small">Uploaded by Marcos · 08:42 · File source</p>
+      </div>
+      <div class="panel">
+        <p style="margin:0 0 8px; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#4b5563; font-weight:700;">Clarification impact</p>
+        <div class="badge warn">Critical</div>
+        <p>Who owns legacy SAML broker decommissioning and what cutover constraints exist?</p>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>

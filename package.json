@@ -1,0 +1,29 @@
+{
+  "name": "engniter-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "node --experimental-strip-types --experimental-specifier-resolution=node --test \"src/**/*.test.ts\""
+  },
+  "dependencies": {
+    "firebase": "^12.14.0",
+    "firebase-admin": "^13.10.0",
+    "next": "15.0.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^9",
+    "eslint-config-next": "15.0.0",
+    "typescript": "^5"
+  }
+}
