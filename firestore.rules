@@ -2,6 +2,22 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /opportunities/{opportunityId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.createdByUserId == request.auth.uid;
+      allow update: if request.auth != null;
+      allow delete: if false;
+
+      match /contextItems/{itemId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null;
+        allow update: if false;
+        allow delete: if request.auth != null
+          && resource.data.uploaderId == request.auth.uid;
+      }
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

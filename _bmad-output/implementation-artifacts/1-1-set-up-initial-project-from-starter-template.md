@@ -4,7 +4,7 @@ baseline_commit: NO_VCS
 
 # Story 1.1: Set up initial project from starter template
 
-Status: in-progress
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -63,7 +63,7 @@ so that MVP development begins on the validated technical foundation required fo
 - [x] [Review][Patch] Add regression coverage for the real auth/session flow, including session route, logout, middleware gating, and protected-route access [src\lib\config\firebase-project.test.ts:1]
 - [x] [Review][Patch] Fail closed when `AUTH_ALLOWED_EMAIL_DOMAINS` is not configured [src/lib/config/firebase-project.ts:19]
 - [x] [Review][Patch] Prevent invalid session cookies from crashing the public home route [src/app/page.tsx:8]
-- [ ] [Review][Patch] Catch only the real `SessionVerificationError` type on the public home route [src/app/home-session.ts:7]
+- [x] [Review][Patch] Catch only the real `SessionVerificationError` type on the public home route [src/app/home-session.ts:7]
 - [x] [Review][Defer] Harden email-domain parsing against malformed addresses with multiple `@` characters [src/lib/config/firebase-project.ts:23] — deferred, pre-existing
 - [x] [Review][Defer] Reject backslash-based redirect targets like `/\\evil.com` in `getSafeRedirectPath` [src/lib/config/firebase-project.ts:28] — deferred, pre-existing
 
@@ -219,6 +219,7 @@ GPT-5.4
 - `npm test && npm run lint && npm run build`
 - `npm test`
 - `npm run lint && npm run build`
+- `npm test && npm run lint && npm run build`
 
 ### Completion Notes List
 
@@ -235,6 +236,7 @@ GPT-5.4
 - Resolved the regression-coverage review finding by adding guardrail tests for logout session deletion, protected-route gating, session cookie responses, session verification, and access checks.
 - Resolved the fail-closed review finding by denying access when `AUTH_ALLOWED_EMAIL_DOMAINS` is unset or empty, preserving the deny-by-default auth posture.
 - Resolved the public-home review finding by isolating session-verification errors on the public home route and safely degrading to anonymous rendering instead of crashing.
+- Resolved the final public-home review finding by matching the real `SessionVerificationError` type and adding a `.js` shim so the helper stays compatible with both Next.js build rules and the native TypeScript test runner.
 
 ### File List
 
@@ -278,6 +280,7 @@ GPT-5.4
 - `src\features\auth\server\protected-route.ts`
 - `src\features\auth\server\require-role.ts`
 - `src\features\auth\server\require-session.ts`
+- `src\features\auth\server\session-verification.js`
 - `src\features\auth\server\session-response.test.ts`
 - `src\features\auth\server\session-response.ts`
 - `src\features\auth\server\session-verification.test.ts`
@@ -314,3 +317,4 @@ GPT-5.4
 - 2026-05-30: Bootstrapped the Firebase App Hosting Next.js starter at the repo root, added secure auth/session scaffolding, protected Opportunity workspace routing, deny-by-default Firebase config, and native TypeScript guardrail tests.
 - 2026-05-30: Addressed Story 1.1 code-review follow-ups by hardening logout/session verification behavior and adding regression coverage for secure session, protected-route, and access-control paths.
 - 2026-05-30: Closed the remaining review findings by making allowed-email-domain checks fail closed and shielding the public home route from invalid-session cookie crashes.
+- 2026-05-30: Closed the final Story 1.1 review finding by requiring a real `SessionVerificationError` instance on the public home route and keeping that import compatible with both test and build environments.
