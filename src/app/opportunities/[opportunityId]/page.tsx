@@ -34,10 +34,10 @@ async function handleUpdate(
 
 export default async function OpportunityPage({ params }: Props) {
   const { opportunityId } = await params;
-  await requireRole();
+  const session = await requireRole();
 
   const opportunity = await getOpportunity(opportunityId);
-  if (!opportunity) {
+  if (!opportunity || opportunity.createdByUserId !== session.uid) {
     notFound();
   }
 

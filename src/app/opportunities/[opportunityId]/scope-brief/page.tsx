@@ -23,7 +23,7 @@ export default async function ScopeBriefPage({ params, searchParams }: Props) {
   const session = await requireRole();
 
   const opportunity = await getOpportunity(opportunityId);
-  if (!opportunity) {
+  if (!opportunity || opportunity.createdByUserId !== session.uid) {
     notFound();
   }
 

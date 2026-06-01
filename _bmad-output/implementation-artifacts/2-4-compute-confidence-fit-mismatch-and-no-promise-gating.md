@@ -116,7 +116,7 @@ _Code review 2026-06-01 (Blind Hunter + Edge Case Hunter + Acceptance Auditor). 
 - [x] [Review][Patch] ConfidencePill lacks the plain-language sublabel/reason required by the confidence-pill task and the accessibility guardrail (renders only "Scope Confidence · {level}") — **Resolved:** added a per-level plain-language reason sublabel alongside the chip. [src/features/scope-briefs/components/confidence-pill.tsx]
 - [x] [Review][Defer] Approve action ignores `flagged` items and allows approving an all-rejected (empty) brief — pre-existing `approveScopeBriefAction` logic, now semantically inconsistent with the 2.4 no-promise gate [src/features/scope-briefs/server/actions.ts] — deferred, pre-existing (partially overlaps Story 2.3 deferred approve-gate TOCTOU)
 - [x] [Review][Defer] `updateScopeItemInBrief` rewrites the full `items` array from a stale snapshot — concurrent reviews of different items can lose an update [src/features/scope-briefs/server/repository.ts] — deferred, pre-existing (already tracked in Story 2.3 review deferral)
-- [x] [Review][Defer] Scope Brief page and Opportunity overview page lack an ownership check (`requireRole()` only, no `createdByUserId === uid` compare) — any authenticated user can read any opportunity's Scope Brief + internal fit criteria by guessing the ID (IDOR). **HIGH security** [src/app/opportunities/[opportunityId]/scope-brief/page.tsx, src/app/opportunities/[opportunityId]/page.tsx] — deferred, pre-existing (predates 2.4); recommend prioritizing
+- [x] [Review][Defer→Resolved] Scope Brief page and Opportunity overview page lack an ownership check (`requireRole()` only, no `createdByUserId === uid` compare) — any authenticated user could read any opportunity's Scope Brief + internal fit criteria by guessing the ID (IDOR). **HIGH security.** **Resolved 2026-06-01:** all three opportunity-scoped pages (overview, scope-brief, context-package) now `notFound()` when `opportunity.createdByUserId !== session.uid`, matching the Server Actions' ownership pattern. [src/app/opportunities/[opportunityId]/page.tsx, scope-brief/page.tsx, context-package/page.tsx]
 
 ## Dev Notes
 
@@ -327,6 +327,7 @@ claude-opus-4.8
 - Modified: `src/features/scope-briefs/components/scope-brief-panel.tsx`
 - Modified: `src/app/opportunities/[opportunityId]/page.tsx`
 - Modified: `src/app/opportunities/[opportunityId]/scope-brief/page.tsx`
+- Modified: `src/app/opportunities/[opportunityId]/context-package/page.tsx`
 - Modified: `src/app/api/opportunities/[opportunityId]/analysis/route.ts`
 - Modified: `src/server/ai/analyze-context-package.ts`
 - Modified: `src/server/ai/analyze-context-package.helpers.ts`
@@ -338,3 +339,4 @@ claude-opus-4.8
 - 2026-05-31: Story created from epics (Story 2.4), PRD FR-7, UX confidence/no-promise/fit-mismatch patterns, and analysis of the Story 2.1–2.3 scope-brief implementation.
 - 2026-05-31: Implemented Story 2.4 — derived confidence/no-promise pure model, override Server Action with audit, AI-assisted fit-mismatch (action-triggered + persisted), confidence pill + no-promise + fit-mismatch banners wired into the Scope Brief panel and Opportunity overview, and analysis seeding switched to the derived model. All tests/lint/build green (148 tests).
 - 2026-06-01: Code-review fixes — (D1) `evaluateFitMismatch` rethrows `FIT_CHECK_FAILED` instead of persisting a failed check as clean; (D2) added `empty-scope` no-promise blocker for non-sparse zero-active-item briefs; (P1) FitMismatchBanner renders the conflicting scope-item pointer (AC3); (P2) banner/recheck render nothing without fit criteria and pages pass `items`/`hasFitCriteria`; (P3) ConfidencePill gained a plain-language reason sublabel. Decisions D3/D4 deferred. 149 tests/lint/build green.
+- 2026-06-01: Security hardening — resolved deferred HIGH IDOR. All three opportunity-scoped Server Component pages (overview, scope-brief, context-package) now `notFound()` when `opportunity.createdByUserId !== session.uid`, closing cross-user read access to scope briefs and internal fit criteria. 149 tests/lint/build green.

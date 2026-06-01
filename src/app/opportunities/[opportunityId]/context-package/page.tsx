@@ -13,10 +13,10 @@ type Props = {
 
 export default async function ContextPackagePage({ params }: Props) {
   const { opportunityId } = await params;
-  await requireRole();
+  const session = await requireRole();
 
   const opportunity = await getOpportunity(opportunityId);
-  if (!opportunity) {
+  if (!opportunity || opportunity.createdByUserId !== session.uid) {
     notFound();
   }
 
