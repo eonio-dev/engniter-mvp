@@ -2,6 +2,7 @@
 
 import { requireRole } from "@/features/auth/server/require-role";
 import { getOpportunity } from "@/features/opportunities/server/repository";
+import { canApproveScopeBrief } from "@/features/scope-briefs/confidence";
 import {
   updateScopeItemSchema,
   approveScopeSchema,
@@ -80,21 +81,10 @@ export async function approveScopeBriefAction(
   const access = await resolveScopeBriefAccess(parsed.data.scopeBriefId, session.uid);
   if ("error" in access) return access;
 
-  if (access.scopeBrief.items.length === 0) {
+  const decision = canApproveScopeBrief(access.scopeBrief);
+  if (!decision.allowed) {
     return {
-      error: { code: "REVIEW_INCOMPLETE", message: "There are no items to approve." },
-    };
-  }
-
-  const pendingCount = access.scopeBrief.items.filter(
-    (i) => i.reviewStatus === "pending",
-  ).length;
-  if (pendingCount > 0) {
-    return {
-      error: {
-        code: "REVIEW_INCOMPLETE",
-        message: `${pendingCount} item(s) still need review.`,
-      },
+      error: { code: "REVIEW_INCOMPLETE", message: decision.reason ?? "Cannot approve this Scope Brief yet." },
     };
   }
 

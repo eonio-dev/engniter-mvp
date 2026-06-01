@@ -115,3 +115,37 @@ export function canGenerateExternalArtifacts(
     reason: gate.blockers[0]?.message ?? "Unresolved no-promise blockers remain.",
   };
 }
+
+export function canApproveScopeBrief(
+  brief: Pick<ScopeBrief, "sparseInput" | "items" | "noPromiseOverride">,
+): { allowed: boolean; reason?: string } {
+  if (brief.items.length === 0) {
+    return { allowed: false, reason: "There are no items to approve." };
+  }
+
+  const activeItems = getActiveItems(brief.items);
+  if (activeItems.length === 0) {
+    return {
+      allowed: false,
+      reason: "Every item has been rejected — there is nothing to approve.",
+    };
+  }
+
+  const pendingCount = brief.items.filter((item) => item.reviewStatus === "pending").length;
+  if (pendingCount > 0) {
+    return { allowed: false, reason: `${pendingCount} item(s) still need review.` };
+  }
+
+  // Align approval with the no-promise gate (Story 2.4): a brief that still carries
+  // unresolved commitment risk (e.g. flagged items) must not be approved unless an
+  // audited no-promise override is in place.
+  const gate = evaluateNoPromiseGate(brief);
+  if (gate.blocked && brief.noPromiseOverride == null) {
+    return {
+      allowed: false,
+      reason: gate.blockers[0]?.message ?? "Unresolved commitment blockers remain.",
+    };
+  }
+
+  return { allowed: true };
+}

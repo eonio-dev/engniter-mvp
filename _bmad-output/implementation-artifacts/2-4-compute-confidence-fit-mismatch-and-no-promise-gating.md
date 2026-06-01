@@ -4,7 +4,7 @@ baseline_commit: "53c36aa98059823230c18e292a532446e7a486f3"
 
 # Story 2.4: Compute confidence, fit mismatch, and no-promise gating
 
-Status: in-progress
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -114,9 +114,16 @@ _Code review 2026-06-01 (Blind Hunter + Edge Case Hunter + Acceptance Auditor). 
 - [x] [Review][Patch] FitMismatchBanner omits the conflicting scope-item pointer required by AC3 (renders only `criterion` + `reason`, ignores `conflictingItemId`) — **Resolved:** banner now resolves `conflictingItemId` via an items map and renders `(conflicts with: "…")`. [src/features/scope-briefs/components/fit-mismatch-banner.tsx]
 - [x] [Review][Patch] Fit banner + "Re-check fit" control render even when the Opportunity has no `fitCriteria` and the array is empty/unchecked; spec says render nothing when empty — **Resolved:** banner returns `null` when no mismatches + never checked + no fit criteria; recheck gated on `hasFitCriteria`; both pages pass `items`/`hasFitCriteria` and the scope-brief page only mounts the banner when `opportunity.fitCriteria` is set. [src/features/scope-briefs/components/fit-mismatch-banner.tsx, src/app/opportunities/[opportunityId]/scope-brief/page.tsx]
 - [x] [Review][Patch] ConfidencePill lacks the plain-language sublabel/reason required by the confidence-pill task and the accessibility guardrail (renders only "Scope Confidence · {level}") — **Resolved:** added a per-level plain-language reason sublabel alongside the chip. [src/features/scope-briefs/components/confidence-pill.tsx]
-- [x] [Review][Defer] Approve action ignores `flagged` items and allows approving an all-rejected (empty) brief — pre-existing `approveScopeBriefAction` logic, now semantically inconsistent with the 2.4 no-promise gate [src/features/scope-briefs/server/actions.ts] — deferred, pre-existing (partially overlaps Story 2.3 deferred approve-gate TOCTOU)
+- [x] [Review][Defer→Resolved] Approve action ignores `flagged` items and allows approving an all-rejected (empty) brief — pre-existing `approveScopeBriefAction` logic, now semantically inconsistent with the 2.4 no-promise gate [src/features/scope-briefs/server/actions.ts]. **Resolved 2026-06-01:** extracted a pure `canApproveScopeBrief` into `confidence.ts` (no items → block; all-rejected → block regardless of override; pending → block; gate-blocked e.g. flagged → block unless an audited `noPromiseOverride` is present) and wired it into `approveScopeBriefAction`. Unit-tested in `confidence.test.ts`. Approval is now consistent with `evaluateNoPromiseGate`.
 - [x] [Review][Defer] `updateScopeItemInBrief` rewrites the full `items` array from a stale snapshot — concurrent reviews of different items can lose an update [src/features/scope-briefs/server/repository.ts] — deferred, pre-existing (already tracked in Story 2.3 review deferral)
 - [x] [Review][Defer→Resolved] Scope Brief page and Opportunity overview page lack an ownership check (`requireRole()` only, no `createdByUserId === uid` compare) — any authenticated user could read any opportunity's Scope Brief + internal fit criteria by guessing the ID (IDOR). **HIGH security.** **Resolved 2026-06-01:** all three opportunity-scoped pages (overview, scope-brief, context-package) now `notFound()` when `opportunity.createdByUserId !== session.uid`, matching the Server Actions' ownership pattern. [src/app/opportunities/[opportunityId]/page.tsx, scope-brief/page.tsx, context-package/page.tsx]
+
+### Review Findings — 2026-06-01 (review of IDOR fix commit f9a7be7)
+
+_Code review (Blind Hunter + Edge Case Hunter + Acceptance Auditor) of the ownership-check fix. 1 patch, 1 dismissed. Auditor confirmed the three detail pages are fully closed._
+
+- [x] [Review][Patch] Opportunities **list** page leaked every user's opportunities — `src/app/opportunities/page.tsx` called `listOpportunities()` (no `createdByUserId` filter) instead of the existing `listOpportunitiesByUser(userId)`, so any authenticated user saw all users' opportunity titles/clients by enumeration. Same broken-access-control class as the IDOR fix, which had locked the detail pages but missed the enumerating list page. **Resolved:** switched to `listOpportunitiesByUser(session.uid)`. [src/app/opportunities/page.tsx:14]
+- Dismissed (1): "ownerless-record bypass when both `createdByUserId` and `session.uid` are undefined/empty" (Blind Hunter) — not reachable: `sessionSchema` enforces `uid: z.string().min(1)` and `toAppSession` parses through it, so `session.uid` is always non-empty; an empty-owner record (`createdByUserId ?? ""`) yields `"" !== uid` → `notFound()` (denied, not bypassed).
 
 ## Dev Notes
 
@@ -306,6 +313,7 @@ claude-opus-4.8
 - **Audit trail:** the override record persisted on the brief (`noPromiseOverride = { overriddenByUserId, overriddenAt, reason }`) IS the audit mechanism for MVP — no separate collection.
 - `evaluateScopeConfidence` now seeds persisted `scopeConfidence` at analysis time; a freshly generated all-pending brief correctly resolves to Low (PRD-strict coupling). `computeScopeConfidence` and its tests removed.
 - Validation gate: `npm test` (148 pass, up from 117), `npm run lint` (clean), `npm run build` (exit 0; only the pre-existing benign "Cannot serialize key parse" ESLint warning).
+- **Post-review hardening (2026-06-01):** resolved all 2.4 code-review findings. (1) Fit re-check now rethrows on failure instead of persisting a clean result; (2) added an `empty-scope` no-promise blocker; (3) FitMismatchBanner names the conflicting item and renders nothing without fit criteria; (4) ConfidencePill gained a plain-language reason; (5) HIGH IDOR closed — all three opportunity-scoped pages plus the opportunities list page now enforce ownership; (6) approval aligned with the no-promise gate via the new pure `canApproveScopeBrief` (blocks flagged/empty/pending briefs unless an audited override is present), unit-tested. Final gate: `npm test` 156 pass, `npm run lint` clean, `npm run build` exit 0. Only the pre-existing Story-2.3 `updateScopeItemInBrief` lost-update race remains deferred (tracked in deferred-work.md).
 
 ### File List
 
@@ -328,6 +336,7 @@ claude-opus-4.8
 - Modified: `src/app/opportunities/[opportunityId]/page.tsx`
 - Modified: `src/app/opportunities/[opportunityId]/scope-brief/page.tsx`
 - Modified: `src/app/opportunities/[opportunityId]/context-package/page.tsx`
+- Modified: `src/app/opportunities/page.tsx`
 - Modified: `src/app/api/opportunities/[opportunityId]/analysis/route.ts`
 - Modified: `src/server/ai/analyze-context-package.ts`
 - Modified: `src/server/ai/analyze-context-package.helpers.ts`
@@ -340,3 +349,5 @@ claude-opus-4.8
 - 2026-05-31: Implemented Story 2.4 — derived confidence/no-promise pure model, override Server Action with audit, AI-assisted fit-mismatch (action-triggered + persisted), confidence pill + no-promise + fit-mismatch banners wired into the Scope Brief panel and Opportunity overview, and analysis seeding switched to the derived model. All tests/lint/build green (148 tests).
 - 2026-06-01: Code-review fixes — (D1) `evaluateFitMismatch` rethrows `FIT_CHECK_FAILED` instead of persisting a failed check as clean; (D2) added `empty-scope` no-promise blocker for non-sparse zero-active-item briefs; (P1) FitMismatchBanner renders the conflicting scope-item pointer (AC3); (P2) banner/recheck render nothing without fit criteria and pages pass `items`/`hasFitCriteria`; (P3) ConfidencePill gained a plain-language reason sublabel. Decisions D3/D4 deferred. 149 tests/lint/build green.
 - 2026-06-01: Security hardening — resolved deferred HIGH IDOR. All three opportunity-scoped Server Component pages (overview, scope-brief, context-package) now `notFound()` when `opportunity.createdByUserId !== session.uid`, closing cross-user read access to scope briefs and internal fit criteria. 149 tests/lint/build green.
+- 2026-06-01: Code review of the IDOR fix surfaced a related HIGH leak — the Opportunities list page used `listOpportunities()` (all users) instead of `listOpportunitiesByUser(session.uid)`; switched it so the index only shows the caller's own opportunities. 149 tests/lint/build green.
+- 2026-06-01: Aligned approval with the no-promise gate — added pure `canApproveScopeBrief` (blocks no-items, all-rejected, pending, and gate-blocked/flagged briefs unless an audited override is present) and wired it into `approveScopeBriefAction`; 7 new unit tests. Resolves the last deferred 2.4 review finding. 156 tests/lint/build green.

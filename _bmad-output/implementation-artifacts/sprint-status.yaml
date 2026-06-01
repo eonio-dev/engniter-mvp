@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: "2026-05-30T13:06:50.189+02:00"
-last_updated: "2026-06-01T07:34:28.846+02:00"
+last_updated: "2026-06-01T09:38:17.239+02:00"
 project: "engniter-mvp"
 project_key: "NOKEY"
 tracking_system: "file-system"
@@ -53,7 +53,7 @@ development_status:
   2-1-generate-a-draft-scope-brief-from-the-context-package: done
   2-2-inspect-source-references-and-inferred-items: done
   2-3-review-and-resolve-extracted-scope-items: done
-  2-4-compute-confidence-fit-mismatch-and-no-promise-gating: in-progress
+  2-4-compute-confidence-fit-mismatch-and-no-promise-gating: done
   2-5-generate-and-manage-the-clarification-packet: backlog
   epic-2-retrospective: optional
 

@@ -5,6 +5,7 @@ import {
   evaluateScopeConfidence,
   evaluateNoPromiseGate,
   canGenerateExternalArtifacts,
+  canApproveScopeBrief,
 } from "./confidence.ts";
 import type { ScopeBrief, ScopeItem, ReviewStatus, ScopeCategory } from "./schemas/scope-brief.ts";
 
@@ -167,6 +168,71 @@ describe("canGenerateExternalArtifacts", () => {
     });
     assert.equal(canGenerateExternalArtifacts(b).allowed, true);
     assert.equal(evaluateNoPromiseGate(b).blocked, true);
+  });
+});
+
+describe("canApproveScopeBrief", () => {
+  it("blocks approval when there are no items at all", () => {
+    const result = canApproveScopeBrief(brief({ items: [] }));
+    assert.equal(result.allowed, false);
+    assert.match(result.reason ?? "", /no items/i);
+  });
+
+  it("blocks approval when every item is rejected (empty active scope)", () => {
+    const result = canApproveScopeBrief(brief({ items: [item("goal", "rejected")] }));
+    assert.equal(result.allowed, false);
+    assert.match(result.reason ?? "", /rejected/i);
+  });
+
+  it("blocks approval while items are still pending", () => {
+    const result = canApproveScopeBrief(
+      brief({ items: [item("goal", "accepted"), item("goal", "pending")] }),
+    );
+    assert.equal(result.allowed, false);
+    assert.match(result.reason ?? "", /need review/i);
+  });
+
+  it("blocks approval when a flagged item remains and there is no override", () => {
+    const result = canApproveScopeBrief(
+      brief({ items: [item("goal", "accepted"), item("risk", "flagged")] }),
+    );
+    assert.equal(result.allowed, false);
+    assert.ok(result.reason);
+  });
+
+  it("allows approval of a flagged brief when an audited override is present", () => {
+    const result = canApproveScopeBrief(
+      brief({
+        items: [item("goal", "accepted"), item("risk", "flagged")],
+        noPromiseOverride: {
+          overriddenByUserId: "user_1",
+          overriddenAt: "2026-06-01T00:00:00.000Z",
+          reason: "Client accepts the flagged risk in writing.",
+        },
+      }),
+    );
+    assert.equal(result.allowed, true);
+  });
+
+  it("allows approval when every active item is reviewed and nothing is flagged", () => {
+    const result = canApproveScopeBrief(
+      brief({ items: [item("goal", "accepted"), item("functionalRequirement", "edited")] }),
+    );
+    assert.equal(result.allowed, true);
+  });
+
+  it("does not let an override approve an all-rejected brief", () => {
+    const result = canApproveScopeBrief(
+      brief({
+        items: [item("goal", "rejected")],
+        noPromiseOverride: {
+          overriddenByUserId: "user_1",
+          overriddenAt: "2026-06-01T00:00:00.000Z",
+          reason: "Override present.",
+        },
+      }),
+    );
+    assert.equal(result.allowed, false);
   });
 });
 

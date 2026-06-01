@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { requireRole } from "@/features/auth/server/require-role";
-import { listOpportunities } from "@/features/opportunities/server/repository";
+import { listOpportunitiesByUser } from "@/features/opportunities/server/repository";
 import { OpportunityList } from "@/features/opportunities/components/opportunity-list";
 import { SignOutButton } from "@/features/auth/components/sign-out-button";
 
 export default async function OpportunitiesPage() {
   const session = await requireRole({ redirectTo: "/opportunities" });
 
-  let opportunities: Awaited<ReturnType<typeof listOpportunities>> = [];
+  let opportunities: Awaited<ReturnType<typeof listOpportunitiesByUser>> = [];
   let loadError = false;
 
   try {
-    opportunities = await listOpportunities();
+    opportunities = await listOpportunitiesByUser(session.uid);
   } catch {
     loadError = true;
   }
