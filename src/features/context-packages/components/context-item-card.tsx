@@ -44,6 +44,7 @@ type PendingCardProps = {
   name: string;
   status: "uploading" | "failed";
   progress: number;
+  errorMessage?: string;
   onRetry: (id: string) => void;
   onRemove: (id: string) => void;
 };
@@ -53,6 +54,7 @@ export function PendingContextItemCard({
   name,
   status,
   progress,
+  errorMessage,
   onRetry,
   onRemove,
 }: PendingCardProps) {
@@ -61,7 +63,7 @@ export function PendingContextItemCard({
       <div className="context-item-main">
         <span className="context-item-title">{name}</span>
         {status === "failed" && (
-          <span className="context-item-error">Upload failed.</span>
+          <span className="context-item-error">{errorMessage ?? "Upload failed."}</span>
         )}
       </div>
       {status === "uploading" && (

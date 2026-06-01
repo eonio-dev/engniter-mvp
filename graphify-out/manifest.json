@@ -1,0 +1,172 @@
+{
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\middleware.ts": {
+    "mtime": 1780144719.4934702,
+    "ast_hash": "6b2f15266eabee5f0a33f9b78b7d3b1d",
+    "semantic_hash": "6b2f15266eabee5f0a33f9b78b7d3b1d"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\home-session.test.ts": {
+    "mtime": 1780146529.8841696,
+    "ast_hash": "91d61078f09d964d5f3d055474dafc90",
+    "semantic_hash": "91d61078f09d964d5f3d055474dafc90"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\home-session.ts": {
+    "mtime": 1780146580.8933501,
+    "ast_hash": "03fc66fa0262916a4853c6fbd8e99ab7",
+    "semantic_hash": "03fc66fa0262916a4853c6fbd8e99ab7"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\layout.tsx": {
+    "mtime": 1780140415.2871642,
+    "ast_hash": "b9e569422abc3b9e61a7c67e46e7f45e",
+    "semantic_hash": "b9e569422abc3b9e61a7c67e46e7f45e"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\page.tsx": {
+    "mtime": 1780145868.1263776,
+    "ast_hash": "1cf7b387f353e21176f43c974e967ac4",
+    "semantic_hash": "1cf7b387f353e21176f43c974e967ac4"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\api\\auth\\session\\route.ts": {
+    "mtime": 1780144719.4832125,
+    "ast_hash": "a0da132db1dce1e735dcecf8762c38a9",
+    "semantic_hash": "a0da132db1dce1e735dcecf8762c38a9"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\opportunities\\page.tsx": {
+    "mtime": 1780140415.379146,
+    "ast_hash": "bfb9ae9b80c8dd801fdd5338fe7c6ff8",
+    "semantic_hash": "bfb9ae9b80c8dd801fdd5338fe7c6ff8"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\sign-in\\page.tsx": {
+    "mtime": 1780144719.4914162,
+    "ast_hash": "cdfabdf77ae6e9f2e6e5e8fcd56a06ad",
+    "semantic_hash": "cdfabdf77ae6e9f2e6e5e8fcd56a06ad"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\app\\unauthorized\\page.tsx": {
+    "mtime": 1780140415.3767252,
+    "ast_hash": "0334c08e692efcbe1b0ee61640987275",
+    "semantic_hash": "0334c08e692efcbe1b0ee61640987275"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\client\\delete-session.test.ts": {
+    "mtime": 1780144719.4955194,
+    "ast_hash": "1eede1e741692539169b05aff76a7b8f",
+    "semantic_hash": "1eede1e741692539169b05aff76a7b8f"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\client\\delete-session.ts": {
+    "mtime": 1780144719.3605125,
+    "ast_hash": "9a6c61db66ccb12338d097dddbcdaf29",
+    "semantic_hash": "9a6c61db66ccb12338d097dddbcdaf29"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\components\\google-sign-in-button.tsx": {
+    "mtime": 1780140533.614596,
+    "ast_hash": "bebadbde0a91f5f7eca6b5426de2ad44",
+    "semantic_hash": "bebadbde0a91f5f7eca6b5426de2ad44"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\components\\sign-out-button.tsx": {
+    "mtime": 1780144719.4653645,
+    "ast_hash": "8f21d87e2d9257716d36a8d477ac4f00",
+    "semantic_hash": "8f21d87e2d9257716d36a8d477ac4f00"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\schemas\\session.js": {
+    "mtime": 1780144794.3716865,
+    "ast_hash": "fbadf6b89a3643ee8b2ed3f22d1b19b6",
+    "semantic_hash": "fbadf6b89a3643ee8b2ed3f22d1b19b6"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\schemas\\session.test.ts": {
+    "mtime": 1780140415.352636,
+    "ast_hash": "a182c10edddf530b084fab27a92f066d",
+    "semantic_hash": "a182c10edddf530b084fab27a92f066d"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\schemas\\session.ts": {
+    "mtime": 1780140415.3507907,
+    "ast_hash": "1c8d64581a7d4dd59debaeb1279feb52",
+    "semantic_hash": "1c8d64581a7d4dd59debaeb1279feb52"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\access.test.ts": {
+    "mtime": 1780144738.7328982,
+    "ast_hash": "2ce1d4746ebe5857f3f8299a8d30acef",
+    "semantic_hash": "2ce1d4746ebe5857f3f8299a8d30acef"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\access.ts": {
+    "mtime": 1780144808.0598607,
+    "ast_hash": "db2fabeffde5346d56efe28515416f44",
+    "semantic_hash": "db2fabeffde5346d56efe28515416f44"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\get-current-user.ts": {
+    "mtime": 1780144719.4688942,
+    "ast_hash": "73aa2c73fcbb7efa7eca56c980cc9491",
+    "semantic_hash": "73aa2c73fcbb7efa7eca56c980cc9491"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\protected-route.test.ts": {
+    "mtime": 1780144719.4965453,
+    "ast_hash": "45165210a3da6900c75306ce9a7f461d",
+    "semantic_hash": "45165210a3da6900c75306ce9a7f461d"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\protected-route.ts": {
+    "mtime": 1780144808.0598607,
+    "ast_hash": "f1fa9c4fd1c6090b93e9895d5c4d0e36",
+    "semantic_hash": "f1fa9c4fd1c6090b93e9895d5c4d0e36"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\require-role.ts": {
+    "mtime": 1780144719.473674,
+    "ast_hash": "760ee5b6988f2c4494c51aa32ce8ee22",
+    "semantic_hash": "760ee5b6988f2c4494c51aa32ce8ee22"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\require-session.ts": {
+    "mtime": 1780144719.477818,
+    "ast_hash": "c0eeab9331485a60329cfb713a0a0c01",
+    "semantic_hash": "c0eeab9331485a60329cfb713a0a0c01"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\session-response.test.ts": {
+    "mtime": 1780144719.5051205,
+    "ast_hash": "2a04ecd3dfaa8259b0dd21caa644dfe9",
+    "semantic_hash": "2a04ecd3dfaa8259b0dd21caa644dfe9"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\session-response.ts": {
+    "mtime": 1780144808.07402,
+    "ast_hash": "4624cdc7a56844c48a0ff0f545d58b9d",
+    "semantic_hash": "4624cdc7a56844c48a0ff0f545d58b9d"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\session-verification.js": {
+    "mtime": 1780146580.87935,
+    "ast_hash": "053a01803796005f5f802546e46ef9a9",
+    "semantic_hash": "053a01803796005f5f802546e46ef9a9"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\session-verification.test.ts": {
+    "mtime": 1780144719.5071313,
+    "ast_hash": "4717cbeb2ae2a8c280a24f9639a32f31",
+    "semantic_hash": "4717cbeb2ae2a8c280a24f9639a32f31"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\features\\auth\\server\\session-verification.ts": {
+    "mtime": 1780144808.077114,
+    "ast_hash": "3d5fe41784285ccf0411b1aff4aac9de",
+    "semantic_hash": "3d5fe41784285ccf0411b1aff4aac9de"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\config\\env.ts": {
+    "mtime": 1780140415.3289251,
+    "ast_hash": "ce1fdc98ef4035d109ecf1e235aa72ca",
+    "semantic_hash": "ce1fdc98ef4035d109ecf1e235aa72ca"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\config\\firebase-project.js": {
+    "mtime": 1780144794.39146,
+    "ast_hash": "6fa19bfaaf6a6836378b820cf2ff37af",
+    "semantic_hash": "6fa19bfaaf6a6836378b820cf2ff37af"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\config\\firebase-project.test.ts": {
+    "mtime": 1780145868.1204343,
+    "ast_hash": "0e8568bdaa936cb1f2b3e73e38b56a38",
+    "semantic_hash": "0e8568bdaa936cb1f2b3e73e38b56a38"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\config\\firebase-project.ts": {
+    "mtime": 1780145868.123365,
+    "ast_hash": "fa00d69574affc0796faad3fa64262fb",
+    "semantic_hash": "fa00d69574affc0796faad3fa64262fb"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\firebase\\admin.ts": {
+    "mtime": 1780140415.3457587,
+    "ast_hash": "ed5b22abb5e8d13e6961406b7b3a092b",
+    "semantic_hash": "ed5b22abb5e8d13e6961406b7b3a092b"
+  },
+  "C:\\Users\\eonio\\Documents\\Workspace\\engniter-mvp\\src\\lib\\firebase\\client-app.ts": {
+    "mtime": 1780140415.334926,
+    "ast_hash": "4ebc8b9fc5c6f60d4f04406045eb4d81",
+    "semantic_hash": "4ebc8b9fc5c6f60d4f04406045eb4d81"
+  }
+}

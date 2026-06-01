@@ -71,7 +71,7 @@ export function ScopeItemCard({ item, scopeBriefId, contextItemsRecord }: Props)
     item.reviewStatus === "edited" ? (item.editedContent ?? item.content) : item.content;
 
   return (
-    <div className="scope-item-card">
+    <div className="scope-item-card" id={`scope-item-${item.id}`}>
       <p className="scope-item-content">{displayContent}</p>
 
       <div className="scope-item-chips">

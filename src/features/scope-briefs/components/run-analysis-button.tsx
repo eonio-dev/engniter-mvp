@@ -12,6 +12,22 @@ export function RunAnalysisButton({ opportunityId }: Props) {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  async function readErrorMessage(response: Response) {
+    const text = await response.text();
+    try {
+      const json = JSON.parse(text) as { error?: { message?: string }; data?: { jobId?: string } };
+      return {
+        jobId: json.data?.jobId,
+        errorMessage: json.error?.message,
+      };
+    } catch {
+      return {
+        jobId: undefined,
+        errorMessage: text || `Request failed with status ${response.status}.`,
+      };
+    }
+  }
+
   async function handleClick() {
     setIsPending(true);
     setError(null);
@@ -19,15 +35,16 @@ export function RunAnalysisButton({ opportunityId }: Props) {
       const res = await fetch(`/api/opportunities/${opportunityId}/analysis`, {
         method: "POST",
       });
-      const json = await res.json();
-      if ("error" in json) {
-        setError(json.error.message ?? "Failed to start analysis.");
+      const { jobId, errorMessage } = await readErrorMessage(res);
+      if (!res.ok) {
+        setError(errorMessage ?? "Failed to start analysis.");
         return;
       }
-      const jobId = json.data?.jobId;
       router.push(`/opportunities/${opportunityId}/scope-brief?jobId=${jobId}`);
-    } catch {
-      setError("Network error. Please try again.");
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error ? requestError.message : "Network error. Please try again.",
+      );
     } finally {
       setIsPending(false);
     }

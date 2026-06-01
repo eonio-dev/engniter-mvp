@@ -30,6 +30,21 @@ function docToScopeBrief(id: string, data: FirebaseFirestore.DocumentData): Scop
   };
 }
 
+function getCreatedAtValue(data: FirebaseFirestore.DocumentData): number {
+  const createdAt = data.createdAt;
+  if (typeof createdAt?.toMillis === "function") {
+    return createdAt.toMillis();
+  }
+  if (createdAt instanceof Date) {
+    return createdAt.getTime();
+  }
+  if (typeof createdAt === "string") {
+    const parsed = Date.parse(createdAt);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+  return 0;
+}
+
 export async function createScopeBrief(input: NewScopeBriefData): Promise<string> {
   const db = getAdminFirestore();
   const ref = db.collection(COLLECTION).doc();
@@ -47,11 +62,11 @@ export async function getLatestScopeBriefForOpportunity(
   const snapshot = await db
     .collection(COLLECTION)
     .where("opportunityId", "==", opportunityId)
-    .orderBy("createdAt", "desc")
-    .limit(1)
-    .get();
+   .get();
   if (snapshot.empty) return null;
-  const doc = snapshot.docs[0]!;
+  const doc = snapshot.docs
+   .slice()
+   .sort((left, right) => getCreatedAtValue(right.data()) - getCreatedAtValue(left.data()))[0]!;
   return docToScopeBrief(doc.id, doc.data());
 }
 

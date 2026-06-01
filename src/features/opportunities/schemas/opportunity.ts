@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const createOptionalField = z.string().nullish().transform((value) => value ?? undefined);
+
 export const opportunitySchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1, "Title is required."),
@@ -20,11 +22,11 @@ export type Opportunity = z.infer<typeof opportunitySchema>;
 export const createOpportunitySchema = z.object({
   title: z.string().min(1, "Title is required."),
   technicalOwner: z.string().min(1, "Technical owner is required."),
-  clientName: z.string().optional(),
-  projectType: z.string().optional(),
-  estimatedValue: z.string().optional(),
-  proposalDeadline: z.string().optional(),
-  fitCriteria: z.string().optional(),
+  clientName: createOptionalField,
+  projectType: createOptionalField,
+  estimatedValue: createOptionalField,
+  proposalDeadline: createOptionalField,
+  fitCriteria: createOptionalField,
 });
 
 export type CreateOpportunityInput = z.infer<typeof createOpportunitySchema>;

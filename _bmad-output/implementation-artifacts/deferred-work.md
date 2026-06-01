@@ -40,3 +40,8 @@
 - TOCTOU between approve gate and item updates (`actions.ts`): `pendingCount` is read in `resolveScopeBriefAccess`, then `updateScopeBriefStatus("approved")` is written separately. An interleaving "Change"/"Restore" (sets `pending`) can leave an approved brief with pending items. Same single-user MVP assumption; resolve atomically with a transaction alongside the race fix above.
 - `getLatestScopeBriefForOpportunity` `orderBy("createdAt")` can omit a just-created brief whose `serverTimestamp` is still unresolved (`repository.ts`). Pre-existing from Story 2.1, not caused by Story 2.3.
 - Items remain editable after a brief is `approved` (no locking transition): `ScopeItemCard` never receives `scopeBrief.status` and `updateScopeItemAction` has no status guard. Deferred as a product decision — AC4 implies post-approval restore of rejected items is expected, so silently locking would conflict; revisit if approval should freeze scope.
+
+## Deferred from: code review of story-2.5 (2026-06-01)
+
+- Prompt injection via raw scope-item text in the AI user prompt (`src/server/ai/generate-clarification-packet.ts`). Untrusted item content is interpolated after the JSON-only instructions and could attempt to override them. Systemic across all `src/server/ai` modules; mitigated by strict JSON parsing + downstream Zod validation. Address with a project-wide prompt-hardening pass.
+- Concurrent regenerations of the same brief can surface the older request as "latest" by `generatedAt` (`src/features/clarifications/server/actions.ts`, `repository.ts`). Low-probability race in the MVP single-user flow; revisit if multi-user/concurrent editing is added.

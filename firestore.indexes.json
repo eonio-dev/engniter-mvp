@@ -15,6 +15,14 @@
         { "fieldPath": "opportunityId", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "clarificationPackets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "scopeBriefId", "order": "ASCENDING" },
+        { "fieldPath": "generatedAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

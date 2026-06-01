@@ -68,8 +68,9 @@ export async function POST(
     uploadResult = await uploadContextFile(opportunityId, itemId, fileBuffer, filename, mimeType);
   } catch (err) {
     console.error("Storage upload failed:", err);
+    const message = err instanceof Error ? err.message : "File upload to storage failed.";
     return Response.json(
-      { error: { code: "UPLOAD_FAILED", message: "File upload to storage failed." } },
+      { error: { code: "UPLOAD_FAILED", message } },
       { status: 500 },
     );
   }

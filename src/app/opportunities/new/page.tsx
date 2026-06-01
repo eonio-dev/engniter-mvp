@@ -29,11 +29,34 @@ export default async function NewOpportunityPage() {
         </div>
       </header>
 
-      <section className="workspace-content">
-        <div className="form-panel">
-          <OpportunityMetadataForm mode="create" action={handleCreate} />
-        </div>
-      </section>
+      <div className="workspace-grid">
+        <section className="workspace-panel workspace-column">
+          <div>
+            <h2 className="section-title">Opportunity metadata</h2>
+            <p className="section-copy">
+              Start with clean metadata. Better inputs here improve context package, scope brief,
+              and clarification quality later.
+            </p>
+          </div>
+          <div className="form-panel">
+            <OpportunityMetadataForm mode="create" action={handleCreate} />
+          </div>
+        </section>
+
+        <aside className="workspace-panel workspace-aside">
+          <div>
+            <h2 className="section-title">What good looks like</h2>
+            <p className="section-copy">
+              Keep entries short, concrete, and decision-friendly.
+            </p>
+          </div>
+          <ul className="helper-list">
+            <li>Use client-facing title team can recognize fast.</li>
+            <li>Add owner who can answer delivery and architecture questions.</li>
+            <li>Document fit constraints that should block weak opportunities early.</li>
+          </ul>
+        </aside>
+      </div>
     </main>
   );
 }

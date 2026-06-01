@@ -1,14 +1,34 @@
 import { getAdminStorage } from "@/lib/firebase/storage";
-import { getServerEnv } from "@/lib/config/env";
+import { getServerStorageBucketName } from "@/lib/config/env";
 
-function getStorageBucket() {
-  const bucket = getServerEnv().NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
-  if (!bucket) {
+function getPrimaryBucketName() {
+  const bucketName = getServerStorageBucketName();
+  if (!bucketName) {
     throw new Error(
-      "Storage bucket not configured — set NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET in .env.local",
+      "Storage bucket not configured — set NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET or FIREBASE_ADMIN_PROJECT_ID in .env.local",
     );
   }
-  return getAdminStorage().bucket(bucket);
+  return bucketName;
+}
+
+function getBucketCandidates() {
+  const primary = getPrimaryBucketName();
+  const candidates = [primary];
+
+  if (primary.endsWith(".firebasestorage.app")) {
+    candidates.push(primary.replace(/\.firebasestorage\.app$/, ".appspot.com"));
+  } else if (primary.endsWith(".appspot.com")) {
+    candidates.push(primary.replace(/\.appspot\.com$/, ".firebasestorage.app"));
+  }
+
+  return [...new Set(candidates)];
+}
+
+function isBucketNotFoundError(error: unknown) {
+  if (!(error instanceof Error)) return false;
+  return "code" in error
+    && (error as Error & { code?: unknown }).code === 404
+    && /bucket does not exist/i.test(error.message);
 }
 
 function sanitizeFilename(filename: string): string {
@@ -28,20 +48,32 @@ export async function uploadContextFile(
   filename: string,
   mimeType: string,
 ): Promise<UploadResult> {
-  const bucket = getStorageBucket();
   const safe = sanitizeFilename(filename);
   const storagePath = `opportunities/${opportunityId}/context-items/${itemId}/${safe}`;
-  const file = bucket.file(storagePath);
+  const bucketCandidates = getBucketCandidates();
 
-  await file.save(fileBuffer, {
-    contentType: mimeType,
-    metadata: { cacheControl: "private, max-age=0" },
-  });
+  for (const [index, bucketName] of bucketCandidates.entries()) {
+    const bucket = getAdminStorage().bucket(bucketName);
+    const file = bucket.file(storagePath);
 
-  return {
-    storageRef: storagePath,
-    storageBucket: bucket.name,
-  };
+    try {
+      await file.save(fileBuffer, {
+        contentType: mimeType,
+        metadata: { cacheControl: "private, max-age=0" },
+      });
+
+      return {
+        storageRef: storagePath,
+        storageBucket: bucket.name,
+      };
+    } catch (error) {
+      if (!isBucketNotFoundError(error) || index === bucketCandidates.length - 1) {
+        throw error;
+      }
+    }
+  }
+
+  throw new Error("Storage upload failed.");
 }
 
 export async function deleteContextFile(

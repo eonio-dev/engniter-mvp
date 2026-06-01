@@ -1,6 +1,4 @@
 export const runtime = "nodejs";
-
-import { unstable_after as after } from "next/server";
 import { getCurrentUser } from "@/features/auth/server/get-current-user";
 import { canAccessProtectedArea } from "@/features/auth/server/access";
 import { getOpportunity } from "@/features/opportunities/server/repository";
@@ -94,9 +92,9 @@ export async function POST(
     createdByUserId: session.uid,
   });
 
-  after(async () => {
-    await runAnalysis(jobId, opportunityId);
-  });
+  setTimeout(() => {
+    void runAnalysis(jobId, opportunityId);
+  }, 0);
 
   return Response.json({ data: { jobId } });
 }

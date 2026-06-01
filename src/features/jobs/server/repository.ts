@@ -19,6 +19,20 @@ function docToJob(id: string, data: FirebaseFirestore.DocumentData): Job {
   };
 }
 
+function getTimestampValue(value: unknown): number {
+  if (typeof (value as { toMillis?: () => number } | null)?.toMillis === "function") {
+    return (value as { toMillis: () => number }).toMillis();
+  }
+  if (value instanceof Date) {
+    return value.getTime();
+  }
+  if (typeof value === "string") {
+    const parsed = Date.parse(value);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+  return 0;
+}
+
 export async function createJob(input: {
   type: "extract-context-package";
   opportunityId: string;
@@ -74,11 +88,18 @@ export async function getActiveJobForOpportunity(
   const snapshot = await db
     .collection(COLLECTION)
     .where("opportunityId", "==", opportunityId)
-    .where("status", "in", ["queued", "running"])
-    .limit(1)
     .get();
   if (snapshot.empty) return null;
-  const doc = snapshot.docs[0]!;
+  const doc = snapshot.docs
+    .filter((entry) => {
+      const status = entry.data().status;
+      return status === "queued" || status === "running";
+    })
+    .sort(
+      (left, right) =>
+        getTimestampValue(right.data().createdAt) - getTimestampValue(left.data().createdAt),
+    )[0];
+  if (!doc) return null;
   return docToJob(doc.id, doc.data());
 }
 

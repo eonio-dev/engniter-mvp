@@ -12,6 +12,7 @@ type PendingItem = {
   status: "uploading" | "failed";
   progress: number;
   file: File;
+  errorMessage?: string;
 };
 
 type TextFormState = { status: "idle" } | { status: "error"; message: string } | { status: "success" };
@@ -92,10 +93,18 @@ export function ContextPackageUploadForm({ opportunityId, initialItems }: Props)
             setPendingItems((prev) => prev.filter((p) => p.id !== pendingId));
             router.refresh();
           })
-          .catch(() => {
+          .catch((error: unknown) => {
             setPendingItems((prev) =>
               prev.map((p) =>
-                p.id === pendingId ? { ...p, status: "failed", progress: 0 } : p,
+                p.id === pendingId
+                  ? {
+                      ...p,
+                      status: "failed",
+                      progress: 0,
+                      errorMessage:
+                        error instanceof Error ? error.message : "Upload failed.",
+                    }
+                  : p,
               ),
             );
           });
@@ -109,7 +118,11 @@ export function ContextPackageUploadForm({ opportunityId, initialItems }: Props)
       const item = pendingItems.find((p) => p.id === pendingId);
       if (!item || item.status === "uploading") return;
       setPendingItems((prev) =>
-        prev.map((p) => (p.id === pendingId ? { ...p, status: "uploading", progress: 0 } : p)),
+        prev.map((p) =>
+          p.id === pendingId
+            ? { ...p, status: "uploading", progress: 0, errorMessage: undefined }
+            : p,
+        ),
       );
       uploadFileXhr(
         opportunityId,
@@ -123,10 +136,18 @@ export function ContextPackageUploadForm({ opportunityId, initialItems }: Props)
           setPendingItems((prev) => prev.filter((p) => p.id !== pendingId));
           router.refresh();
         })
-        .catch(() => {
+        .catch((error: unknown) => {
           setPendingItems((prev) =>
             prev.map((p) =>
-              p.id === pendingId ? { ...p, status: "failed", progress: 0 } : p,
+              p.id === pendingId
+                ? {
+                    ...p,
+                    status: "failed",
+                    progress: 0,
+                    errorMessage:
+                      error instanceof Error ? error.message : "Upload failed.",
+                  }
+                : p,
             ),
           );
         });
@@ -311,6 +332,7 @@ export function ContextPackageUploadForm({ opportunityId, initialItems }: Props)
                     name={entry.item.name}
                     status={entry.item.status}
                     progress={entry.item.progress}
+                    errorMessage={entry.item.errorMessage}
                     onRetry={handleRetry}
                     onRemove={handleRemove}
                   />

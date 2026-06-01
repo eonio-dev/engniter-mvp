@@ -74,6 +74,12 @@ export default async function OpportunityPage({ params }: Props) {
         >
           Scope Brief
         </Link>
+        <Link
+          href={`/opportunities/${opportunityId}/clarifications`}
+          className="nav-tab"
+        >
+          Clarifications
+        </Link>
       </nav>
 
       <div className="workspace-grid">

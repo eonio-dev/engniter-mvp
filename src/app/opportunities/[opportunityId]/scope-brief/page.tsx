@@ -101,6 +101,11 @@ export default async function ScopeBriefPage({ params, searchParams }: Props) {
             />
           )}
           <ScopeBriefPanel scopeBrief={scopeBrief} scopeBriefId={scopeBrief.id} contextItemsRecord={contextItemsRecord} />
+          <p className="workspace-copy">
+            <Link href={`/opportunities/${opportunityId}/clarifications`} className="secondary-link">
+              Generate or review the Clarification Packet →
+            </Link>
+          </p>
         </>
       )}
 

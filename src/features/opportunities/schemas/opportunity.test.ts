@@ -109,6 +109,18 @@ describe("createOpportunitySchema", () => {
     assert.ok(result.success);
     assert.equal(result.data.clientName, "ACME");
   });
+
+  it("normalizes null optional fields to undefined", () => {
+    const result = createOpportunitySchema.safeParse({
+      title: "Opportunity",
+      technicalOwner: "Marcos",
+      clientName: null,
+      fitCriteria: null,
+    });
+    assert.ok(result.success);
+    assert.equal(result.data.clientName, undefined);
+    assert.equal(result.data.fitCriteria, undefined);
+  });
 });
 
 describe("updateOpportunitySchema", () => {

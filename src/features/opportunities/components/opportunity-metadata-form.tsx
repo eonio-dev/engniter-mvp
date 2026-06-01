@@ -63,115 +63,137 @@ export function OpportunityMetadataForm(props: OpportunityMetadataFormProps) {
   );
 
   return (
-    <form action={dispatch} noValidate>
+    <form action={dispatch} noValidate className="opportunity-form">
       {state.status === "error" && (
         <div className="form-error" role="alert">
           {state.message}
         </div>
       )}
 
-      <div className="form-field">
-        <label htmlFor="title" className="form-label">
-          Title <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id="title"
-          name="title"
-          type="text"
-          required
-          aria-required="true"
-          defaultValue={(initialValues as { title?: string }).title ?? ""}
-          className="form-input"
-          autoComplete="off"
-        />
-      </div>
+      <section className="form-section" aria-labelledby="opportunity-basics-title">
+        <div className="form-section-header">
+          <h2 id="opportunity-basics-title" className="form-section-title">Basics</h2>
+          <p className="form-section-copy">
+            Capture core opportunity details first. Required fields marked with *.
+          </p>
+        </div>
 
-      <div className="form-field">
-        <label htmlFor="technicalOwner" className="form-label">
-          Technical owner <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id="technicalOwner"
-          name="technicalOwner"
-          type="text"
-          required
-          aria-required="true"
-          defaultValue={(initialValues as { technicalOwner?: string }).technicalOwner ?? ""}
-          className="form-input"
-          autoComplete="off"
-        />
-      </div>
+        <div className="form-grid">
+          <div className="form-field form-field-wide">
+            <label htmlFor="title" className="form-label">
+              Title <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              required
+              aria-required="true"
+              defaultValue={(initialValues as { title?: string }).title ?? ""}
+              className="form-input"
+              autoComplete="off"
+            />
+          </div>
 
-      <div className="form-field">
-        <label htmlFor="clientName" className="form-label">
-          Client name
-        </label>
-        <input
-          id="clientName"
-          name="clientName"
-          type="text"
-          defaultValue={(initialValues as { clientName?: string | null }).clientName ?? ""}
-          className="form-input"
-          autoComplete="off"
-        />
-      </div>
+          <div className="form-field">
+            <label htmlFor="technicalOwner" className="form-label">
+              Technical owner <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id="technicalOwner"
+              name="technicalOwner"
+              type="text"
+              required
+              aria-required="true"
+              defaultValue={(initialValues as { technicalOwner?: string }).technicalOwner ?? ""}
+              className="form-input"
+              autoComplete="off"
+            />
+          </div>
 
-      <div className="form-field">
-        <label htmlFor="projectType" className="form-label">
-          Project type
-        </label>
-        <input
-          id="projectType"
-          name="projectType"
-          type="text"
-          defaultValue={(initialValues as { projectType?: string | null }).projectType ?? ""}
-          className="form-input"
-          autoComplete="off"
-        />
-      </div>
+          <div className="form-field">
+            <label htmlFor="clientName" className="form-label">
+              Client name
+            </label>
+            <input
+              id="clientName"
+              name="clientName"
+              type="text"
+              defaultValue={(initialValues as { clientName?: string | null }).clientName ?? ""}
+              className="form-input"
+              autoComplete="off"
+            />
+          </div>
+        </div>
+      </section>
 
-      <div className="form-field">
-        <label htmlFor="estimatedValue" className="form-label">
-          Estimated value
-        </label>
-        <input
-          id="estimatedValue"
-          name="estimatedValue"
-          type="text"
-          defaultValue={(initialValues as { estimatedValue?: string | null }).estimatedValue ?? ""}
-          className="form-input"
-          autoComplete="off"
-        />
-      </div>
+      <section className="form-section" aria-labelledby="opportunity-planning-title">
+        <div className="form-section-header">
+          <h2 id="opportunity-planning-title" className="form-section-title">Planning context</h2>
+          <p className="form-section-copy">
+            Add commercial and delivery context so next workflow steps start with cleaner inputs.
+          </p>
+        </div>
 
-      <div className="form-field">
-        <label htmlFor="proposalDeadline" className="form-label">
-          Proposal deadline
-        </label>
-        <input
-          id="proposalDeadline"
-          name="proposalDeadline"
-          type="date"
-          defaultValue={(initialValues as { proposalDeadline?: string | null }).proposalDeadline ?? ""}
-          className="form-input"
-        />
-      </div>
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="projectType" className="form-label">
+              Project type
+            </label>
+            <input
+              id="projectType"
+              name="projectType"
+              type="text"
+              defaultValue={(initialValues as { projectType?: string | null }).projectType ?? ""}
+              className="form-input"
+              autoComplete="off"
+            />
+          </div>
 
-      <div className="form-field">
-        <label htmlFor="fitCriteria" className="form-label">
-          Internal fit criteria
-        </label>
-        <textarea
-          id="fitCriteria"
-          name="fitCriteria"
-          rows={4}
-          defaultValue={(initialValues as { fitCriteria?: string | null }).fitCriteria ?? ""}
-          className="form-input form-textarea"
-        />
-        <p className="form-hint">
-          Stack preferences, delivery guardrails, or budget constraints.
-        </p>
-      </div>
+          <div className="form-field">
+            <label htmlFor="estimatedValue" className="form-label">
+              Estimated value
+            </label>
+            <input
+              id="estimatedValue"
+              name="estimatedValue"
+              type="text"
+              defaultValue={(initialValues as { estimatedValue?: string | null }).estimatedValue ?? ""}
+              className="form-input"
+              autoComplete="off"
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="proposalDeadline" className="form-label">
+              Proposal deadline
+            </label>
+            <input
+              id="proposalDeadline"
+              name="proposalDeadline"
+              type="date"
+              defaultValue={(initialValues as { proposalDeadline?: string | null }).proposalDeadline ?? ""}
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-field form-field-wide">
+            <label htmlFor="fitCriteria" className="form-label">
+              Internal fit criteria
+            </label>
+            <textarea
+              id="fitCriteria"
+              name="fitCriteria"
+              rows={4}
+              defaultValue={(initialValues as { fitCriteria?: string | null }).fitCriteria ?? ""}
+              className="form-input form-textarea"
+            />
+            <p className="form-hint">
+              Stack preferences, delivery guardrails, or budget constraints.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <div className="form-actions">
         <button type="submit" className="primary-button" disabled={isPending}>
