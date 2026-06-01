@@ -5,6 +5,7 @@ import { getOpportunity } from "@/features/opportunities/server/repository";
 import { listContextItems } from "@/features/context-packages/server/repository";
 import { ContextPackageHistoryTable } from "@/features/context-packages/components/context-package-history-table";
 import { ContextPackageUploadForm } from "@/features/context-packages/components/context-package-upload-form";
+import { RunAnalysisButton } from "@/features/scope-briefs/components/run-analysis-button";
 
 type Props = {
   params: Promise<{ opportunityId: string }>;
@@ -44,6 +45,15 @@ export default async function ContextPackagePage({ params }: Props) {
             opportunityId={opportunityId}
             initialItems={latestItems}
           />
+          {latestItems.length > 0 && (
+            <div className="run-analysis-section">
+              <h2 className="section-title">Analysis</h2>
+              <p className="workspace-copy">
+                Run AI analysis to generate a draft Scope Brief from this Context Package.
+              </p>
+              <RunAnalysisButton opportunityId={opportunityId} />
+            </div>
+          )}
         </section>
       </div>
     </main>

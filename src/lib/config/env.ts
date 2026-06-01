@@ -11,6 +11,7 @@ const envSchema = z.object({
   FIREBASE_ADMIN_PROJECT_ID: z.string().min(1).optional(),
   FIREBASE_ADMIN_CLIENT_EMAIL: z.string().min(1).optional(),
   FIREBASE_ADMIN_PRIVATE_KEY: z.string().min(1).optional(),
+  ANTHROPIC_API_KEY: z.string().min(1).optional(),
 });
 
 const env = envSchema.parse(process.env);
